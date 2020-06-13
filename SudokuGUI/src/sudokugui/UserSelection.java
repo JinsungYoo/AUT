@@ -20,6 +20,7 @@ import javax.swing.JPanel;
 
 /**
  * COMP603 Program Design and Construction & Software Construction 2020 S1
+ * https://github.com/JinsungYoo/AUT/tree/master/SudokuGUI
  * 
  * This class for Selection Player. 
  * Player Date come from users table on database.

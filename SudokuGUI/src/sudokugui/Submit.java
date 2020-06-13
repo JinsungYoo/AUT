@@ -13,6 +13,7 @@ import javax.swing.JPanel;
 
 /**
  * COMP603 Program Design and Construction & Software Construction 2020 S1
+ * https://github.com/JinsungYoo/AUT/tree/master/SudokuGUI
  * 
  * When click the submit user's answer in the game, this class is executing.
  * 

@@ -19,6 +19,7 @@ import javax.swing.JTextField;
 
 /**
  * COMP603 Program Design and Construction & Software Construction 2020 S1
+ * https://github.com/JinsungYoo/AUT/tree/master/SudokuGUI
  * 
  * This class for Playing Game
  * 
