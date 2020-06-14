@@ -25,7 +25,7 @@ import javax.swing.JTextField;
  * 
  * @author Jinsung Yoo
  * @StudentID 18037792
- * @version 12.06.2020
+ * @version 14.06.2020
  */
 public class Play extends JFrame implements ActionListener{
     private int userid;
@@ -53,7 +53,7 @@ public class Play extends JFrame implements ActionListener{
         totalScore = new JLabel(userScore);
         useridLabel = new JLabel("Player ID : ");
         userLabel = new JLabel("     Player : ");
-        scoreLabel = new JLabel("     Current Your Total Score : ");
+        scoreLabel = new JLabel("                 Total Score : ");
 
         BoardGenerator answerBoard = new BoardGenerator();
         answer = answerBoard.getBoard();

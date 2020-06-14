@@ -19,10 +19,10 @@ import javax.swing.JPanel;
  * 
  * @author Jinsung Yoo
  * @StudentID 18037792
- * @version 12.06.2020
+ * @version 14.06.2020
  */
 public class Submit extends JFrame implements ActionListener{
-    private int userid;
+    private int userid, totalScore;
     private String user, userScore;
     private JPanel result;
     private JLabel resultLabel;
@@ -35,43 +35,46 @@ public class Submit extends JFrame implements ActionListener{
     private static final String URL = "jdbc:derby://localhost:1527/userDB;create=true"; //Database
     
     public Submit(int userid, String user, String userScore, int score) throws SQLException{
-        setTitle("THANK YOU FOR PLAYING!");
-        
-        this.userid = userid;
-        this.user = user;
-        this.userScore = userScore;
-        
-        result = new JPanel();
-        setContentPane(result);
-        
-        playAgain = new JButton("Play Again");
-        playAgain.addActionListener(this);
-        quitGame = new JButton("Quit Game");
-        quitGame.addActionListener(this);
+        try {
+            setTitle("THANK YOU FOR PLAYING!");
 
-        //Calculating total user score.
-        int totalScore = (Integer.parseInt(userScore) + score);
-        System.out.println(totalScore);
-        resultLabel = new JLabel(user + ", Your Score is " + score + " and Your Total Score is " + totalScore);
-        
-        //After finish the game, check the game score and then update user total score on database.
-        conn=DriverManager.getConnection(URL, USER_NAME, PASSWORD);
-        PreparedStatement pstmt = conn.prepareStatement("UPDATE users SET userscore=?  WHERE userid=? ");
-        pstmt.setInt(2, userid);
-        pstmt.setInt(1, totalScore);
-        pstmt.executeUpdate();
-        
-        result.add(resultLabel);
-        result.add(playAgain);
-        result.add(quitGame);
-        
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-        setSize(350,100);
-        setResizable(false);
-        setVisible(true);
-        
-        pstmt.close();
-        conn.close();
+            this.userid = userid;
+            this.user = user;
+            this.userScore = userScore;
+
+            result = new JPanel();
+            setContentPane(result);
+
+            //Calculating total user score.
+            totalScore = (Integer.parseInt(userScore) + score);
+            resultLabel = new JLabel(user + ", Your Score is " + score + " and Your Total Score is " + totalScore);
+
+            //After finish the game, check the game score and then update user total score on database.
+            conn=DriverManager.getConnection(URL, USER_NAME, PASSWORD);
+            PreparedStatement pstmt = conn.prepareStatement("UPDATE users SET userscore=?  WHERE userid=? ");
+            pstmt.setInt(2, userid);
+            pstmt.setInt(1, totalScore);
+            pstmt.executeUpdate();
+            
+            playAgain = new JButton("Play Again");
+            playAgain.addActionListener(this);
+            quitGame = new JButton("Quit Game");
+            quitGame.addActionListener(this);
+
+            result.add(resultLabel);
+            result.add(playAgain);
+            result.add(quitGame);
+
+            setDefaultCloseOperation(EXIT_ON_CLOSE);
+            setSize(350,100);
+            setResizable(false);
+            setVisible(true);
+
+            pstmt.close();
+            conn.close();
+        }catch(Exception e){
+            System.out.println(e.getMessage());
+        }
     }
     
     //ActionListener for Button
@@ -81,7 +84,7 @@ public class Submit extends JFrame implements ActionListener{
             System.exit(0);
         }
         else{
-            Play play = new Play(userid, user, userScore);
+            Play play = new Play(userid, user, Integer.toString(totalScore));
             setVisible(false);
         }
     }
