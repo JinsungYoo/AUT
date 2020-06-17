@@ -29,7 +29,7 @@ import javax.swing.JTextField;
  * 
  * @author Jinsung Yoo
  * @StudentID 18037792
- * @version 14.06.2020
+ * @version 17.06.2020
  */
 public class NewPlayer extends JFrame implements ActionListener{
     private int newPlayerID;
@@ -42,13 +42,14 @@ public class NewPlayer extends JFrame implements ActionListener{
     private static Connection conn;
     private static final String USER_NAME = "pdc";//User name for access the database
     private static final String PASSWORD = "pdc";//Password for access the database
-    private static final String URL = "jdbc:derby://localhost:1527/userDB;create=true"; //Database
+    private static final String URL = "jdbc:derby:userDB;create=true"; //Database
     
     public NewPlayer() throws SQLException{
         try {
             setTitle("NEW PLAYER");
 
             //Connecting database and load the users table.
+            Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
             conn=DriverManager.getConnection(URL, USER_NAME, PASSWORD);
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery("SELECT * FROM users");
@@ -104,7 +105,9 @@ public class NewPlayer extends JFrame implements ActionListener{
         {
             if (e.getSource() == start){
                 String typedUserName = userNameField.getText();
-
+                
+                
+                Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
                 conn=DriverManager.getConnection(URL, USER_NAME, PASSWORD);
                 PreparedStatement pstmt = conn.prepareStatement("INSERT INTO users VALUES(?,?,?)");
                 pstmt.setInt(1,newPlayerID);
@@ -124,7 +127,12 @@ public class NewPlayer extends JFrame implements ActionListener{
             }
         } catch (SQLException ex) {
                 Logger.getLogger(NewPlayer.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (ClassNotFoundException ex) {
+            Logger.getLogger(NewPlayer.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (InstantiationException ex) {
+            Logger.getLogger(NewPlayer.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IllegalAccessException ex) {
+            Logger.getLogger(NewPlayer.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
     }
 }

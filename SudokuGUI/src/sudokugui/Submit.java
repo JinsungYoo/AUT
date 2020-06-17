@@ -19,7 +19,7 @@ import javax.swing.JPanel;
  * 
  * @author Jinsung Yoo
  * @StudentID 18037792
- * @version 14.06.2020
+ * @version 17.06.2020
  */
 public class Submit extends JFrame implements ActionListener{
     private int userid, totalScore;
@@ -32,7 +32,7 @@ public class Submit extends JFrame implements ActionListener{
     private static Connection conn;
     private static final String USER_NAME = "pdc";//User name for access the database
     private static final String PASSWORD = "pdc";//Password for access the database
-    private static final String URL = "jdbc:derby://localhost:1527/userDB;create=true"; //Database
+    private static final String URL = "jdbc:derby:userDB;create=true"; //Database
     
     public Submit(int userid, String user, String userScore, int score) throws SQLException{
         try {
@@ -50,6 +50,7 @@ public class Submit extends JFrame implements ActionListener{
             resultLabel = new JLabel(user + ", Your Score is " + score + " and Your Total Score is " + totalScore);
 
             //After finish the game, check the game score and then update user total score on database.
+            Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
             conn=DriverManager.getConnection(URL, USER_NAME, PASSWORD);
             PreparedStatement pstmt = conn.prepareStatement("UPDATE users SET userscore=?  WHERE userid=? ");
             pstmt.setInt(2, userid);

@@ -29,7 +29,7 @@ import javax.swing.JPanel;
  * 
  * @author Jinsung Yoo
  * @StudentID 18037792
- * @version 14.06.2020
+ * @version 17.06.2020
  */
 public class UserSelection extends JFrame implements ActionListener{
     ArrayList<Integer> dbUser_id = new ArrayList<Integer>();
@@ -48,7 +48,7 @@ public class UserSelection extends JFrame implements ActionListener{
     private static Connection conn;
     private static final String USER_NAME = "pdc";//User name for access the database
     private static final String PASSWORD = "pdc";//Password for access the database
-    private static final String URL = "jdbc:derby://localhost:1527/userDB;create=true"; //Database
+    private static final String URL = "jdbc:derby:userDB;create=true"; //Database
     
     public UserSelection() throws SQLException{
         try {
@@ -70,6 +70,8 @@ public class UserSelection extends JFrame implements ActionListener{
             userLabel = new JLabel("PLAYER : ");
 
             //Connecting database and load the users table.
+            
+            Class.forName("org.apache.derby.jdbc.EmbeddedDriver").newInstance();
             conn=DriverManager.getConnection(URL, USER_NAME, PASSWORD);
             Statement st = conn.createStatement();
             ResultSet rs = st.executeQuery("SELECT * FROM users");
